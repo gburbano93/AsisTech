@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_1"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingStart="45dp"
+        android:paddingEnd="45dp">
+
+        <!-- LOGO -->
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="170dp"
+            android:layout_height="130dp"
+            android:layout_marginTop="55dp"
+            android:src="@drawable/logo"
+            android:contentDescription="Logo AsisTech"
+            android:scaleType="fitCenter" />
+
+        <!-- BIENVENIDO -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Bienvenido"
+            android:textColor="#172554"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <!-- SUBTÍTULO -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="Inicia sesión para continuar"
+            android:textColor="#6B7280"
+            android:textSize="13sp" />
+
+        <!-- CORREO -->
+        <EditText
+            android:id="@+id/edtCorreo"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="35dp"
+            android:backgroundTint="#0F766E"
+            android:hint="Correo electrónico"
+            android:inputType="textEmailAddress"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textSize="14sp" />
+
+        <!-- CONTRASEÑA -->
+        <EditText
+            android:id="@+id/edtContrasena"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="#0F766E"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textSize="14sp" />
+
+        <!-- BOTÓN -->
+        <Button
+            android:id="@+id/btnIniciarSesion"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="#0F766E"
+            android:text="Iniciar sesión"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <!-- TEXTO INFERIOR -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="ORGANIZACIÓN  •  CONTROL  •  PRODUCTIVIDAD"
+            android:textColor="#0F766E"
+            android:textSize="9sp" />
+
+    </LinearLayout>
+
+</ScrollView>
