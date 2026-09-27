@@ -55,6 +55,14 @@ public class EmpleadosFragment extends Fragment {
                 false
         );
 
+        //Agregar Empleado
+        View btnAgregarEmpleado =
+                view.findViewById(R.id.btnAgregarEmpleado);
+
+        btnAgregarEmpleado.setOnClickListener(v ->
+                agregarEmpleado()
+        );
+
         recyclerListaEmpleados =
                 view.findViewById(
                         R.id.recyclerListaEmpleados
@@ -77,6 +85,14 @@ public class EmpleadosFragment extends Fragment {
         cargarEmpleados();
 
         return view;
+    }
+
+    private void agregarEmpleado() {
+        android.widget.Toast.makeText(
+                requireContext(),
+                "Agregar empleado seleccionado",
+                android.widget.Toast.LENGTH_SHORT
+        ).show();
     }
 
     private void cargarEmpleados() {

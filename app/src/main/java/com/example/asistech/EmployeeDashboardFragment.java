@@ -28,7 +28,52 @@ public class EmployeeDashboardFragment extends Fragment {
                 false
         );
 
+        // Marcar Entrada
+        View btnMarcarEntrada =
+                view.findViewById(R.id.btnMarcarEntrada);
+
+        btnMarcarEntrada.setOnClickListener(v ->
+                marcarEntrada()
+        );
+
+        // Marcar Salida
+        View btnMarcarSalida =
+                view.findViewById(R.id.btnMarcarSalida);
+
+        btnMarcarSalida.setOnClickListener(v ->
+                marcarSalida()
+        );
+
+        // --------------------------------
+        // Perfil
+        // --------------------------------
+
+        View btnPerfilEmpleado =
+                view.findViewById(R.id.btnPerfilEmpleado);
+
+        btnPerfilEmpleado.setOnClickListener(v -> {
+
+            PerfilFragment perfilFragment =
+                    new PerfilFragment();
+
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(
+                            R.id.perfil_container,
+                            perfilFragment
+                    )
+                    .commit();
+
+            requireActivity()
+                    .findViewById(R.id.perfil_container)
+                    .setVisibility(View.VISIBLE);
+        });
+
+        // --------------------------------
         // Registrar Horas Extras
+        // --------------------------------
+
         View btnHorasExtraEmpleado =
                 view.findViewById(R.id.btnHorasExtraEmpleado);
 
@@ -48,7 +93,10 @@ public class EmployeeDashboardFragment extends Fragment {
                     .commit();
         });
 
+        // --------------------------------
         // Mi Historial
+        // --------------------------------
+
         View btnHistorialEmpleado =
                 view.findViewById(R.id.btnHistorialEmpleado);
 
@@ -69,5 +117,22 @@ public class EmployeeDashboardFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void marcarEntrada() {
+
+        android.widget.Toast.makeText(
+                requireContext(),
+                "Entrada registrada correctamente",
+                android.widget.Toast.LENGTH_SHORT
+        ).show();
+    }
+
+    private void marcarSalida() {
+        android.widget.Toast.makeText(
+                requireContext(),
+                "Salida registrada correctamente",
+                android.widget.Toast.LENGTH_SHORT
+        ).show();
     }
 }

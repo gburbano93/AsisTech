@@ -85,16 +85,20 @@ public class EmpleadosGestionAdapter
 
         // Botón editar
         holder.btnEditar.setOnClickListener(v -> {
-
-            // Más adelante abriremos la edición del empleado
-
+            android.widget.Toast.makeText(
+                    v.getContext(),
+                    "Editar empleado seleccionado",
+                    android.widget.Toast.LENGTH_SHORT
+            ).show();
         });
 
         // Botón desactivar
         holder.btnDesactivar.setOnClickListener(v -> {
-
-            // Más adelante programaremos la desactivación
-
+            android.widget.Toast.makeText(
+                    v.getContext(),
+                    "Empleado desactivado",
+                    android.widget.Toast.LENGTH_SHORT
+            ).show();
         });
     }
 
@@ -148,5 +152,14 @@ public class EmpleadosGestionAdapter
                     R.id.btnDesactivarEmpleado
             );
         }
+        private void editarEmpleado() {
+            android.widget.Toast.makeText(
+                    itemView.getContext(),
+                    "Editar empleado seleccionado",
+                    android.widget.Toast.LENGTH_SHORT
+            ).show();
+        }
     }
+
+
 }

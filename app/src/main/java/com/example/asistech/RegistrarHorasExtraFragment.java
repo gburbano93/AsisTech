@@ -28,6 +28,14 @@ public class RegistrarHorasExtraFragment extends Fragment {
                 false
         );
 
+        // Registrar Horas extras
+        View btnEnviarSolicitud =
+                view.findViewById(R.id.btnEnviarSolicitudHoraExtra);
+
+        btnEnviarSolicitud.setOnClickListener(v ->
+                enviarSolicitudHoraExtra()
+        );
+
         // Botón regresar
         View btnRegresar =
                 view.findViewById(R.id.btnRegresar);
@@ -37,5 +45,15 @@ public class RegistrarHorasExtraFragment extends Fragment {
         );
 
         return view;
+    }
+
+    private void enviarSolicitudHoraExtra() {
+        android.widget.Toast.makeText(
+                requireContext(),
+                "Solicitud de horas extras enviada",
+                android.widget.Toast.LENGTH_SHORT
+        ).show();
+
+        getParentFragmentManager().popBackStack();
     }
 }

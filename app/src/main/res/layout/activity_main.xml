@@ -135,4 +135,14 @@
         android:visibility="gone"
         android:elevation="20dp" />
 
+    <!-- Panel de perfil -->
+    <FrameLayout
+        android:id="@+id/perfil_container"
+        android:layout_width="320dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#F8FCFC"
+        android:elevation="30dp"
+        android:visibility="gone" />
+
 </FrameLayout>
