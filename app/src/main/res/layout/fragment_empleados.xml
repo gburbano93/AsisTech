@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8FCFC">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Encabezado -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Empleados"
+                    android:textColor="#172554"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Gestiona la información de tu equipo"
+                    android:textColor="#64748B"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:src="@drawable/logo"
+                android:contentDescription="Logo AsisTech"
+                android:scaleType="fitCenter" />
+
+        </LinearLayout>
+
+        <!-- Buscador -->
+        <!-- Herramientas -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Buscador -->
+            <EditText
+                android:id="@+id/edtBuscarEmpleado"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:hint="Buscar por nombre, cargo o área..."
+                android:textSize="11sp"
+                android:singleLine="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp" />
+
+            <!-- Filtrar -->
+            <Button
+                android:id="@+id/btnFiltrar"
+                android:layout_width="75dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="6dp"
+                android:text="Filtrar"
+                android:textSize="10sp"
+                android:textColor="#172554"
+                android:backgroundTint="#FFFFFF" />
+
+            <!-- Agregar -->
+            <Button
+                android:id="@+id/btnAgregarEmpleado"
+                android:layout_width="105dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="6dp"
+                android:text="+ Agregar"
+                android:textSize="10sp"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#0F766E" />
+
+        </LinearLayout>
+
+        <!-- Total -->
+        <TextView
+            android:id="@+id/txtTotalEmpleados"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Total de empleados: 0"
+            android:textColor="#172554"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerListaEmpleados"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_marginTop="10dp"
+            android:nestedScrollingEnabled="false" />
+
+    </LinearLayout>
+
+</ScrollView>

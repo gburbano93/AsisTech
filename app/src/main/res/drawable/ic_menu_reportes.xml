@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Eje vertical -->
+    <path
+        android:fillColor="#172554"
+        android:pathData="M5,19V9H8V19H5Z" />
+
+    <!-- Barra central -->
+    <path
+        android:fillColor="#172554"
+        android:pathData="M10.5,19V5H13.5V19H10.5Z" />
+
+    <!-- Barra derecha -->
+    <path
+        android:fillColor="#172554"
+        android:pathData="M16,19V12H19V19H16Z" />
+
+    <!-- Línea base -->
+    <path
+        android:fillColor="#172554"
+        android:pathData="M4,20H20V21H4Z" />
+
+</vector>

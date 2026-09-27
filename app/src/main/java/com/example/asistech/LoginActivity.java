@@ -89,17 +89,41 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (response.isSuccessful()) {
 
-                            Toast.makeText(LoginActivity.this,
-                                    "Inicio de sesión correcto",
-                                    Toast.LENGTH_SHORT).show();
+                            try {
+                                JSONObject datosRespuesta = new JSONObject(respuesta);
 
-                            Intent intent = new Intent(
-                                    LoginActivity.this,
-                                    MainActivity.class
-                            );
+                                String nombre = datosRespuesta.optString("nombre", "");
+                                String rol = datosRespuesta.optString("rol", "");
 
-                            startActivity(intent);
-                            finish();
+                                // Por si la API devuelve los datos dentro de "usuario"
+                                if (nombre.isEmpty() && datosRespuesta.has("usuario")) {
+                                    JSONObject usuario = datosRespuesta.getJSONObject("usuario");
+                                    nombre = usuario.optString("nombre", "");
+                                    rol = usuario.optString("rol", "");
+                                }
+
+                                Toast.makeText(LoginActivity.this,
+                                        "Inicio de sesión correcto",
+                                        Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(
+                                        LoginActivity.this,
+                                        MainActivity.class
+                                );
+
+                                intent.putExtra("nombre", nombre);
+                                intent.putExtra("rol", rol);
+
+                                startActivity(intent);
+                                finish();
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+
+                                Toast.makeText(LoginActivity.this,
+                                        "Error procesando los datos del usuario",
+                                        Toast.LENGTH_SHORT).show();
+                            }
 
                         } else {
 

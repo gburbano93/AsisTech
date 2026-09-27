@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8FCFC">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- ENCABEZADO -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Aprobar horas extra"
+                    android:textColor="#172554"
+                    android:textSize="23sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Revisa y aprueba las solicitudes de horas extra"
+                    android:textColor="#64748B"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:src="@drawable/logo"
+                android:contentDescription="Logo AsisTech"
+                android:scaleType="fitCenter" />
+
+        </LinearLayout>
+
+        <!-- BUSCADOR Y FILTRO -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="18dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edtBuscarHorasExtra"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="Buscar por nombre, cargo o fecha..."
+                android:textSize="10sp"
+                android:singleLine="true"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp" />
+
+            <Button
+                android:id="@+id/btnFiltrarHorasExtra"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="7dp"
+                android:text="Filtrar"
+                android:textColor="#172554"
+                android:textSize="10sp"
+                android:backgroundTint="#FFFFFF" />
+
+        </LinearLayout>
+
+        <!-- TOTAL -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Total de solicitudes: 8"
+            android:textColor="#172554"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <!-- SOLICITUD 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="78dp"
+            android:layout_marginTop="8dp"
+            android:background="#FFFFFF"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/logo"
+                android:contentDescription="Empleado"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="7dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="María Fernanda López"
+                    android:textColor="#172554"
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Auxiliar administrativa"
+                    android:textColor="#64748B"
+                    android:textSize="8sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Área: Administrativa"
+                    android:textColor="#64748B"
+                    android:textSize="8sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12 sep 2025"
+                    android:textColor="#64748B"
+                    android:textSize="7sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2 horas"
+                    android:textColor="#172554"
+                    android:textSize="8sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Apoyo en evento institucional"
+                    android:textColor="#64748B"
+                    android:textSize="7sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="62dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="58dp"
+                    android:layout_height="24dp"
+                    android:gravity="center"
+                    android:background="#FFF1D6"
+                    android:text="Pendiente"
+                    android:textColor="#D97706"
+                    android:textSize="7sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:layout_width="58dp"
+                    android:layout_height="27dp"
+                    android:layout_marginTop="4dp"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:padding="0dp"
+                    android:text="Aprobar"
+                    android:textColor="#FFFFFF"
+                    android:textSize="7sp"
+                    android:backgroundTint="#0F766E" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- SOLICITUD 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="78dp"
+            android:layout_marginTop="5dp"
+            android:background="#FFFFFF"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/logo"
+                android:contentDescription="Empleado"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="7dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Juan Carlos Pérez"
+                    android:textColor="#172554"
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Técnico operativo"
+                    android:textColor="#64748B"
+                    android:textSize="8sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Área: Operaciones"
+                    android:textColor="#64748B"
+                    android:textSize="8sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10 sep 2025"
+                    android:textColor="#64748B"
+                    android:textSize="7sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3 horas"
+                    android:textColor="#172554"
+                    android:textSize="8sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mantenimiento de equipos"
+                    android:textColor="#64748B"
+                    android:textSize="7sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="62dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="58dp"
+                    android:layout_height="24dp"
+                    android:gravity="center"
+                    android:background="#FFF1D6"
+                    android:text="Pendiente"
+                    android:textColor="#D97706"
+                    android:textSize="7sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:layout_width="58dp"
+                    android:layout_height="27dp"
+                    android:layout_marginTop="4dp"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:padding="0dp"
+                    android:text="Aprobar"
+                    android:textColor="#FFFFFF"
+                    android:textSize="7sp"
+                    android:backgroundTint="#0F766E" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- SOLICITUD 3 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="78dp"
+            android:layout_marginTop="5dp"
+            android:background="#FFFFFF"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/logo"
+                android:contentDescription="Empleado"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="7dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ana Sofía Martínez"
+                    android:textColor="#172554"
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Profesional de talento humano"
+                    android:textColor="#64748B"
+                    android:textSize="8sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Área: Talento Humano"
+                    android:textColor="#64748B"
+                    android:textSize="8sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="8 sep 2025"
+                    android:textColor="#64748B"
+                    android:textSize="7sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2 horas"
+                    android:textColor="#172554"
+                    android:textSize="8sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Actividad de bienestar"
+                    android:textColor="#64748B"
+                    android:textSize="7sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="58dp"
+                android:layout_height="24dp"
+                android:gravity="center"
+                android:background="#DDF7EF"
+                android:text="Aprobada"
+                android:textColor="#047857"
+                android:textSize="7sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

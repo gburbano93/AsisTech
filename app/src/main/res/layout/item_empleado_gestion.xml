@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="7dp"
+    android:background="#FFFFFF">
+
+    <!-- Foto -->
+    <ImageView
+        android:id="@+id/imgEmpleadoGestion"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/logo"
+        android:scaleType="centerCrop"
+        android:contentDescription="Foto del empleado" />
+
+    <!-- Información -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="7dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtNombreGestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Juan Carlos Pérez"
+            android:textColor="#172554"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtCargoGestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Técnico operativo"
+            android:textColor="#64748B"
+            android:textSize="8sp" />
+
+        <TextView
+            android:id="@+id/txtAreaGestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Área: Operaciones"
+            android:textColor="#64748B"
+            android:textSize="8sp" />
+
+        <TextView
+            android:id="@+id/txtCorreoGestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="juan.perez@asistech.com"
+            android:textColor="#64748B"
+            android:textSize="8sp" />
+
+    </LinearLayout>
+
+    <!-- Estado y acciones -->
+    <LinearLayout
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- Estado -->
+        <TextView
+            android:id="@+id/txtEstadoGestion"
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:gravity="center"
+            android:background="#DDF7EF"
+            android:text="Activo"
+            android:textColor="#047857"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+
+        <!-- Botones -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnEditarEmpleado"
+                android:layout_width="52dp"
+                android:layout_height="32dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="0dp"
+                android:text="Editar"
+                android:textSize="8sp"
+                android:textColor="#172554"
+                android:backgroundTint="#E8F3F8" />
+
+            <Button
+                android:id="@+id/btnDesactivarEmpleado"
+                android:layout_width="58dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="4dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="0dp"
+                android:text="Desactivar"
+                android:textSize="7sp"
+                android:textColor="#DC2626"
+                android:backgroundTint="#FFE4E8" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
