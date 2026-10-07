@@ -7,15 +7,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EmpleadosGestionAdapter
         extends RecyclerView.Adapter<EmpleadosGestionAdapter.EmpleadoViewHolder> {
 
-    private final List<Empleado> empleados;
+    private List<Empleado> empleados;
 
     public EmpleadosGestionAdapter(List<Empleado> empleados) {
         this.empleados = empleados;
@@ -100,6 +102,11 @@ public class EmpleadosGestionAdapter
                     android.widget.Toast.LENGTH_SHORT
             ).show();
         });
+    }
+
+    public void actualizarLista(List<Empleado> nuevaLista) {
+        empleados = new ArrayList<>(nuevaLista);
+        notifyDataSetChanged();
     }
 
     @Override

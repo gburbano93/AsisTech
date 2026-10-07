@@ -26,11 +26,17 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
+
 public class EmpleadosFragment extends Fragment {
 
     private RecyclerView recyclerListaEmpleados;
 
     private TextView txtTotalEmpleados;
+
+    private EditText edtBuscarEmpleado;
 
     private final List<Empleado> empleados = new ArrayList<>();
 
@@ -73,6 +79,35 @@ public class EmpleadosFragment extends Fragment {
                         R.id.txtTotalEmpleados
                 );
 
+        edtBuscarEmpleado = view.findViewById(
+                R.id.edtBuscarEmpleado
+        );
+
+        edtBuscarEmpleado.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(
+                    CharSequence s,
+                    int start,
+                    int count,
+                    int after) {
+            }
+
+            @Override
+            public void onTextChanged(
+                    CharSequence s,
+                    int start,
+                    int before,
+                    int count) {
+
+                filtrarEmpleados(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
         recyclerListaEmpleados.setLayoutManager(
                 new LinearLayoutManager(requireContext())
         );
@@ -88,11 +123,17 @@ public class EmpleadosFragment extends Fragment {
     }
 
     private void agregarEmpleado() {
-        android.widget.Toast.makeText(
-                requireContext(),
-                "Agregar empleado seleccionado",
-                android.widget.Toast.LENGTH_SHORT
-        ).show();
+        AgregarEmpleadoFragment fragment =
+                new AgregarEmpleadoFragment();
+
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(
+                        R.id.content_container,
+                        fragment
+                )
+                .addToBackStack(null)
+                .commit();
     }
 
     private void cargarEmpleados() {
@@ -203,5 +244,28 @@ public class EmpleadosFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private void filtrarEmpleados(String texto) {
+
+        String busqueda = texto.toLowerCase().trim();
+
+        List<Empleado> empleadosFiltrados = new ArrayList<>();
+
+        for (Empleado empleado : empleados) {
+
+            if (empleado.getNombre().toLowerCase().contains(busqueda)
+                    || empleado.getArea().toLowerCase().contains(busqueda)
+                    || empleado.getCargo().toLowerCase().contains(busqueda)) {
+
+                empleadosFiltrados.add(empleado);
+            }
+        }
+
+        adapter.actualizarLista(empleadosFiltrados);
+
+        txtTotalEmpleados.setText(
+                "Total de empleados: " + empleadosFiltrados.size()
+        );
     }
 }
