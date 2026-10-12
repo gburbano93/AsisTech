@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8FCFC">
+    android:orientation="vertical"
+    android:background="#F8FCFC"
+    android:padding="8dp">
 
+    <!-- Contenido superior -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="12dp">
 
         <!-- Encabezado -->
         <LinearLayout
@@ -50,8 +54,7 @@
 
         </LinearLayout>
 
-        <!-- Buscador -->
-        <!-- Herramientas -->
+        <!-- Buscador y botones -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,7 +62,6 @@
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-            <!-- Buscador -->
             <EditText
                 android:id="@+id/edtBuscarEmpleado"
                 android:layout_width="0dp"
@@ -71,18 +73,16 @@
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp" />
 
-            <!-- Filtrar -->
             <Button
-                android:id="@+id/btnFiltrar"
+                android:id="@+id/btnActualizar"
                 android:layout_width="75dp"
                 android:layout_height="48dp"
                 android:layout_marginStart="6dp"
-                android:text="Filtrar"
+                android:text="Actualizar"
                 android:textSize="10sp"
                 android:textColor="#172554"
                 android:backgroundTint="#FFFFFF" />
 
-            <!-- Agregar -->
             <Button
                 android:id="@+id/btnAgregarEmpleado"
                 android:layout_width="105dp"
@@ -95,7 +95,7 @@
 
         </LinearLayout>
 
-        <!-- Total -->
+        <!-- Total de empleados -->
         <TextView
             android:id="@+id/txtTotalEmpleados"
             android:layout_width="wrap_content"
@@ -106,13 +106,27 @@
             android:textSize="11sp"
             android:textStyle="bold" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerListaEmpleados"
+        <!-- Indicación de desplazamiento -->
+        <TextView
+            android:id="@+id/txtIndicacionLista"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_marginTop="10dp"
-            android:nestedScrollingEnabled="false" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Desliza hacia abajo para ver todos los empleados ↓"
+            android:textColor="#64748B"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
-</ScrollView>
+    <!-- Lista: ocupa todo el espacio restante -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerListaEmpleados"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="4dp"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp"
+        android:scrollbars="vertical" />
+
+</LinearLayout>

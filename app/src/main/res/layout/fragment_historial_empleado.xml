@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -33,7 +32,6 @@
             android:textColor="#172554"
             android:textSize="14sp"
             android:textStyle="bold" />
-
     </LinearLayout>
 
     <!-- CONTENIDO -->
@@ -77,7 +75,6 @@
                         android:text="Consulta tus registros de asistencia"
                         android:textColor="#64748B"
                         android:textSize="12sp" />
-
                 </LinearLayout>
 
                 <ImageView
@@ -86,7 +83,6 @@
                     android:src="@drawable/logo"
                     android:contentDescription="Logo AsisTech"
                     android:scaleType="fitCenter" />
-
             </LinearLayout>
 
             <!-- RESUMEN -->
@@ -96,6 +92,7 @@
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
+                <!-- DÍAS TRABAJADOS -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -106,9 +103,10 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/txtDiasTrabajados"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="22"
+                        android:text="0"
                         android:textColor="#172554"
                         android:textSize="25sp"
                         android:textStyle="bold" />
@@ -120,9 +118,9 @@
                         android:textColor="#0F766E"
                         android:textSize="11sp"
                         android:textStyle="bold" />
-
                 </LinearLayout>
 
+                <!-- HORAS TRABAJADAS -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -133,9 +131,10 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/txtHorasTrabajadas"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="176 h"
+                        android:text="0 h"
                         android:textColor="#172554"
                         android:textSize="25sp"
                         android:textStyle="bold" />
@@ -147,9 +146,7 @@
                         android:textColor="#14537A"
                         android:textSize="11sp"
                         android:textStyle="bold" />
-
                 </LinearLayout>
-
             </LinearLayout>
 
             <!-- FILTROS -->
@@ -160,16 +157,18 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/btnFiltroMes"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_marginEnd="5dp"
                     android:backgroundTint="#0F766E"
-                    android:text="Septiembre 2025"
+                    android:text="Elegir mes"
                     android:textColor="#FFFFFF"
                     android:textSize="10sp" />
 
                 <Button
+                    android:id="@+id/btnFiltroTodos"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -178,7 +177,6 @@
                     android:text="Todos"
                     android:textColor="#172554"
                     android:textSize="10sp" />
-
             </LinearLayout>
 
             <!-- TÍTULO -->
@@ -191,18 +189,20 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <!-- CABECERA -->
+            <!-- TABLA CON DESPLAZAMIENTO HORIZONTAL -->
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:scrollbars="none">
+                android:scrollbars="none"
+                android:fillViewport="false">
 
                 <LinearLayout
                     android:layout_width="500dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                    <!-- CABECERA DE LA TABLA -->
                     <LinearLayout
                         android:layout_width="500dp"
                         android:layout_height="45dp"
@@ -251,168 +251,30 @@
                             android:textColor="#14537A"
                             android:textSize="11sp"
                             android:textStyle="bold" />
-
                     </LinearLayout>
 
-                    <!-- REGISTRO 1 -->
+                    <!-- LAS FILAS REALES SE AGREGAN DESDE JAVA -->
                     <LinearLayout
+                        android:id="@+id/contenedorRegistros"
                         android:layout_width="500dp"
-                        android:layout_height="60dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:background="#FFFFFF"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp">
-
-                        <TextView
-                            android:layout_width="115dp"
-                            android:layout_height="wrap_content"
-                            android:text="15 Sep"
-                            android:textColor="#172554"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:layout_width="85dp"
-                            android:layout_height="wrap_content"
-                            android:text="08:00"
-                            android:textColor="#64748B"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:layout_width="85dp"
-                            android:layout_height="wrap_content"
-                            android:text="17:00"
-                            android:textColor="#64748B"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:layout_width="75dp"
-                            android:layout_height="wrap_content"
-                            android:text="8 h"
-                            android:textColor="#172554"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="90dp"
-                            android:layout_height="30dp"
-                            android:gravity="center"
-                            android:background="@drawable/bg_estado_activo"
-                            android:text="Completa"
-                            android:textColor="#047857"
-                            android:textSize="9sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <!-- REGISTRO 2 -->
-                    <LinearLayout
-                        android:layout_width="500dp"
-                        android:layout_height="60dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:background="#F8FCFC"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp">
-
-                        <TextView
-                            android:layout_width="115dp"
-                            android:layout_height="wrap_content"
-                            android:text="14 Sep"
-                            android:textColor="#172554"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:layout_width="85dp"
-                            android:layout_height="wrap_content"
-                            android:text="08:05"
-                            android:textColor="#64748B"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:layout_width="85dp"
-                            android:layout_height="wrap_content"
-                            android:text="17:02"
-                            android:textColor="#64748B"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:layout_width="75dp"
-                            android:layout_height="wrap_content"
-                            android:text="8 h"
-                            android:textColor="#172554"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="90dp"
-                            android:layout_height="30dp"
-                            android:gravity="center"
-                            android:background="@drawable/bg_estado_activo"
-                            android:text="Completa"
-                            android:textColor="#047857"
-                            android:textSize="9sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <!-- REGISTRO 3 -->
-                    <LinearLayout
-                        android:layout_width="500dp"
-                        android:layout_height="60dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:background="#FFFFFF"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp">
-
-                        <TextView
-                            android:layout_width="115dp"
-                            android:layout_height="wrap_content"
-                            android:text="13 Sep"
-                            android:textColor="#172554"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:layout_width="85dp"
-                            android:layout_height="wrap_content"
-                            android:text="08:00"
-                            android:textColor="#64748B"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:layout_width="85dp"
-                            android:layout_height="wrap_content"
-                            android:text="17:15"
-                            android:textColor="#64748B"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:layout_width="75dp"
-                            android:layout_height="wrap_content"
-                            android:text="8.25 h"
-                            android:textColor="#172554"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="90dp"
-                            android:layout_height="30dp"
-                            android:gravity="center"
-                            android:background="#FFF4D6"
-                            android:text="Extra"
-                            android:textColor="#B45309"
-                            android:textSize="9sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
 
                 </LinearLayout>
-
             </HorizontalScrollView>
 
+            <!-- MENSAJE CUANDO NO HAY REGISTROS -->
+            <TextView
+                android:id="@+id/txtSinRegistros"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:gravity="center"
+                android:text="No hay registros de asistencia"
+                android:textColor="#64748B"
+                android:textSize="13sp"
+                android:visibility="gone" />
+
         </LinearLayout>
-
     </ScrollView>
-
 </LinearLayout>

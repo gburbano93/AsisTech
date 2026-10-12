@@ -1,3 +1,4 @@
+
 package com.example.asistech;
 
 public class Empleado {
@@ -12,6 +13,10 @@ public class Empleado {
     private String horaEntrada;
     private String horaSalida;
     private String asistencia;
+
+    // Horas acumuladas para Reportes
+    private int totalHoras;
+    private int minutos;
 
     public Empleado(
             int id,
@@ -35,6 +40,9 @@ public class Empleado {
         this.horaEntrada = horaEntrada;
         this.horaSalida = horaSalida;
         this.asistencia = asistencia;
+
+        this.totalHoras = 0;
+        this.minutos = 0;
     }
 
     public int getId() {
@@ -75,5 +83,25 @@ public class Empleado {
 
     public String getAsistencia() {
         return asistencia;
+    }
+
+    public int getTotalHoras() {
+        return totalHoras;
+    }
+
+    public int getMinutos() {
+        return minutos;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public void setTotalHoras(int totalHoras) {
+        this.totalHoras = totalHoras;
+    }
+
+    public void setMinutos(int minutos) {
+        this.minutos = minutos;
     }
 }

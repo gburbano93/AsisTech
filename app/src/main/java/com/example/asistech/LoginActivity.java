@@ -47,20 +47,19 @@ public class LoginActivity extends AppCompatActivity {
 
         if (correo.isEmpty() || contrasena.isEmpty()) {
             Toast.makeText(this,
-                    "Completa todos los campos",
-                    Toast.LENGTH_SHORT).show();
+                           "Completa todos los campos",
+                           Toast.LENGTH_SHORT).show();
             return;
         }
 
         try {
-
             JSONObject datos = new JSONObject();
             datos.put("correo", correo);
             datos.put("contrasena", contrasena);
 
             RequestBody body = RequestBody.create(
                     datos.toString(),
-                    MediaType.parse("application/json")
+                    MediaType.parse("application/json; charset=utf-8")
             );
 
             Request request = new Request.Builder()
@@ -73,9 +72,9 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     runOnUiThread(() ->
-                            Toast.makeText(LoginActivity.this,
-                                    "Error de conexión",
-                                    Toast.LENGTH_SHORT).show()
+                                          Toast.makeText(LoginActivity.this,
+                                                         "Error de conexión",
+                                                         Toast.LENGTH_SHORT).show()
                     );
                 }
 
@@ -83,28 +82,43 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Call call, Response response)
                         throws IOException {
 
-                    String respuesta = response.body().string();
+                    String respuesta = response.body() != null
+                            ? response.body().string()
+                            : "";
+
+                    response.close();
 
                     runOnUiThread(() -> {
 
                         if (response.isSuccessful()) {
 
                             try {
-                                JSONObject datosRespuesta = new JSONObject(respuesta);
+                                JSONObject datosRespuesta =
+                                        new JSONObject(respuesta);
 
-                                String nombre = datosRespuesta.optString("nombre", "");
-                                String rol = datosRespuesta.optString("rol", "");
+                                // La API devuelve los datos dentro de "usuario"
+                                JSONObject usuario =
+                                        datosRespuesta.getJSONObject("usuario");
 
-                                // Por si la API devuelve los datos dentro de "usuario"
-                                if (nombre.isEmpty() && datosRespuesta.has("usuario")) {
-                                    JSONObject usuario = datosRespuesta.getJSONObject("usuario");
-                                    nombre = usuario.optString("nombre", "");
-                                    rol = usuario.optString("rol", "");
+                                String nombre =
+                                        usuario.optString("nombre", "");
+
+                                String rol =
+                                        usuario.optString("rol", "");
+
+                                int usuarioId =
+                                        usuario.optInt("id", -1);
+
+                                if (usuarioId == -1) {
+                                    Toast.makeText(LoginActivity.this,
+                                                   "La API no devolvió el ID del usuario",
+                                                   Toast.LENGTH_LONG).show();
+                                    return;
                                 }
 
                                 Toast.makeText(LoginActivity.this,
-                                        "Inicio de sesión correcto",
-                                        Toast.LENGTH_SHORT).show();
+                                               "Inicio de sesión correcto",
+                                               Toast.LENGTH_SHORT).show();
 
                                 Intent intent = new Intent(
                                         LoginActivity.this,
@@ -113,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                 intent.putExtra("nombre", nombre);
                                 intent.putExtra("rol", rol);
+                                intent.putExtra("usuario_id", usuarioId);
 
                                 startActivity(intent);
                                 finish();
@@ -121,15 +136,14 @@ public class LoginActivity extends AppCompatActivity {
                                 e.printStackTrace();
 
                                 Toast.makeText(LoginActivity.this,
-                                        "Error procesando los datos del usuario",
-                                        Toast.LENGTH_SHORT).show();
+                                               "Error procesando los datos del usuario",
+                                               Toast.LENGTH_SHORT).show();
                             }
 
                         } else {
-
                             Toast.makeText(LoginActivity.this,
-                                    "Correo o contraseña incorrectos",
-                                    Toast.LENGTH_SHORT).show();
+                                           "Correo o contraseña incorrectos",
+                                           Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -137,6 +151,11 @@ public class LoginActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
+
+            Toast.makeText(this,
+                           "Error al iniciar sesión",
+                           Toast.LENGTH_SHORT).show();
         }
     }
+
 }

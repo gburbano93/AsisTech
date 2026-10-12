@@ -1,64 +1,361 @@
 package com.example.asistech;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ReportesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class ReportesFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private TextView txtEmpleadosActivos;
+    private TextView txtEmpleadosAusentes;
+    private EditText edtBuscarReporte;
+    private RecyclerView recyclerReportes;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private final List<Empleado> empleados = new ArrayList<>();
+    private final OkHttpClient client = new OkHttpClient();
+
+    private ReporteAdapter adapter;
 
     public ReportesFragment() {
-        // Required empty public constructor
+        // Constructor vacío
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ReportesFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ReportesFragment newInstance(String param1, String param2) {
-        ReportesFragment fragment = new ReportesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Nullable
+    @Override
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            ViewGroup container,
+            Bundle savedInstanceState) {
+
+        View view = inflater.inflate(
+                R.layout.fragment_reportes,
+                container,
+                false
+        );
+
+        txtEmpleadosActivos =
+                view.findViewById(R.id.txtEmpleadosActivos);
+
+        txtEmpleadosAusentes =
+                view.findViewById(R.id.txtEmpleadosAusentes);
+
+        edtBuscarReporte =
+                view.findViewById(R.id.edtBuscarReporte);
+
+        recyclerReportes =
+                view.findViewById(R.id.recyclerReportes);
+
+        recyclerReportes.setLayoutManager(
+                new LinearLayoutManager(requireContext())
+        );
+
+        adapter = new ReporteAdapter(new ArrayList<>());
+        recyclerReportes.setAdapter(adapter);
+
+        edtBuscarReporte.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(
+                    CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(
+                    CharSequence s, int start, int before, int count) {
+                filtrarEmpleados(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+        cargarIndicadores();
+        cargarEmpleados();
+
+        return view;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onResume() {
+        super.onResume();
+        cargarIndicadores();
+        cargarEmpleados();
+    }
+
+    private void cargarIndicadores() {
+
+        Request request = new Request.Builder()
+                .url("http://2.25.188.174:3000/dashboard/empleador")
+                .get()
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(
+                    @NonNull Call call,
+                    @NonNull IOException e) {
+                mostrarError("Error al cargar los indicadores");
+            }
+
+            @Override
+            public void onResponse(
+                    @NonNull Call call,
+                    @NonNull Response response) throws IOException {
+
+                try (Response respuestaApi = response) {
+                    if (!respuestaApi.isSuccessful()
+                            || respuestaApi.body() == null) {
+                        mostrarError("No se pudieron cargar los indicadores");
+                        return;
+                    }
+
+                    JSONObject datos = new JSONObject(
+                            respuestaApi.body().string()
+                    );
+
+                    int activos = datos.getInt("empleados_activos");
+                    int ausentes = datos.getInt("empleados_ausentes");
+
+                    if (!isAdded()) return;
+
+                    requireActivity().runOnUiThread(() -> {
+                        if (!isAdded() || getView() == null) return;
+
+                        txtEmpleadosActivos.setText(
+                                String.valueOf(activos)
+                        );
+
+                        txtEmpleadosAusentes.setText(
+                                String.valueOf(ausentes)
+                        );
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mostrarError("Error al procesar los indicadores");
+                }
+            }
+        });
+    }
+
+    private void cargarEmpleados() {
+
+        Request request = new Request.Builder()
+                .url("http://2.25.188.174:3000/empleados")
+                .get()
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(
+                    @NonNull Call call,
+                    @NonNull IOException e) {
+                mostrarError("Error al cargar los empleados");
+            }
+
+            @Override
+            public void onResponse(
+                    @NonNull Call call,
+                    @NonNull Response response) throws IOException {
+
+                try (Response respuestaApi = response) {
+                    if (!respuestaApi.isSuccessful()
+                            || respuestaApi.body() == null) {
+                        mostrarError("No se pudo obtener la lista");
+                        return;
+                    }
+
+                    JSONArray lista = new JSONArray(
+                            respuestaApi.body().string()
+                    );
+
+                    List<Empleado> empleadosNuevos = new ArrayList<>();
+
+                    for (int i = 0; i < lista.length(); i++) {
+                        JSONObject item = lista.getJSONObject(i);
+
+                        Empleado empleado = new Empleado(
+                                item.getInt("id"),
+                                item.getString("nombre"),
+                                item.getString("correo"),
+                                item.getString("area"),
+                                item.getString("cargo"),
+                                item.optString("fecha_ingreso", ""),
+                                item.optString("estado", "activo"),
+                                item.optString("hora_entrada", ""),
+                                item.optString("hora_salida", ""),
+                                item.optString("asistencia", "ausente")
+                        );
+
+                        empleadosNuevos.add(empleado);
+                    }
+
+                    if (!isAdded()) return;
+
+                    requireActivity().runOnUiThread(() -> {
+                        if (!isAdded() || getView() == null) return;
+
+                        empleados.clear();
+                        empleados.addAll(empleadosNuevos);
+
+                        filtrarEmpleados(
+                                edtBuscarReporte.getText().toString()
+                        );
+
+                        cargarHorasReporte();
+
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mostrarError("Error al procesar los empleados");
+                }
+            }
+        });
+    }
+
+    private void cargarHorasReporte() {
+
+        Request request = new Request.Builder()
+                .url("http://2.25.188.174:3000/reportes/horas")
+                .get()
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+
+            @Override
+            public void onFailure(
+                    @NonNull Call call,
+                    @NonNull IOException e) {
+                mostrarError("Error al cargar las horas trabajadas");
+            }
+
+            @Override
+            public void onResponse(
+                    @NonNull Call call,
+                    @NonNull Response response) throws IOException {
+
+                try (Response respuestaApi = response) {
+
+                    if (!respuestaApi.isSuccessful()
+                            || respuestaApi.body() == null) {
+                        mostrarError("No se pudieron consultar las horas");
+                        return;
+                    }
+
+                    JSONArray lista = new JSONArray(
+                            respuestaApi.body().string()
+                    );
+
+                    java.util.Map<Integer, int[]> horasPorEmpleado =
+                            new java.util.HashMap<>();
+
+                    for (int i = 0; i < lista.length(); i++) {
+                        JSONObject item = lista.getJSONObject(i);
+
+                        int id = item.getInt("empleado_id");
+                        int horas = item.optInt("total_horas", 0);
+                        int minutos = item.optInt("minutos", 0);
+
+                        horasPorEmpleado.put(
+                                id,
+                                new int[]{horas, minutos}
+                        );
+                    }
+
+                    if (!isAdded()) return;
+
+                    requireActivity().runOnUiThread(() -> {
+
+                        if (!isAdded() || getView() == null) return;
+
+                        for (Empleado empleado : empleados) {
+                            int[] tiempo = horasPorEmpleado.get(
+                                    empleado.getId()
+                            );
+
+                            if (tiempo != null) {
+                                empleado.setTotalHoras(tiempo[0]);
+                                empleado.setMinutos(tiempo[1]);
+                            } else {
+                                empleado.setTotalHoras(0);
+                                empleado.setMinutos(0);
+                            }
+                        }
+
+                        filtrarEmpleados(
+                                edtBuscarReporte.getText().toString()
+                        );
+                    });
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mostrarError("Error al procesar las horas");
+                }
+            }
+        });
+    }
+
+    private void filtrarEmpleados(String texto) {
+
+        if (adapter == null) return;
+
+        String busqueda = texto.toLowerCase(Locale.ROOT).trim();
+
+        List<Empleado> filtrados = new ArrayList<>();
+
+        for (Empleado empleado : empleados) {
+            if (empleado.getNombre().toLowerCase(Locale.ROOT)
+                        .contains(busqueda)
+                    || empleado.getArea().toLowerCase(Locale.ROOT)
+                               .contains(busqueda)
+                    || empleado.getCargo().toLowerCase(Locale.ROOT)
+                               .contains(busqueda)) {
+
+                filtrados.add(empleado);
+            }
         }
+
+        adapter.actualizarLista(filtrados);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reportes, container, false);
+    private void mostrarError(String mensaje) {
+        if (!isAdded()) return;
+
+        requireActivity().runOnUiThread(() -> {
+            if (isAdded()) {
+                Toast.makeText(
+                        requireContext(),
+                        mensaje,
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        });
     }
 }

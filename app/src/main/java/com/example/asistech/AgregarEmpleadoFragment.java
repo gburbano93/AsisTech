@@ -1,3 +1,4 @@
+
 package com.example.asistech;
 
 import android.app.DatePickerDialog;
@@ -7,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,12 +34,39 @@ import okhttp3.Response;
 
 public class AgregarEmpleadoFragment extends Fragment {
 
+    private boolean modoEdicion = false;
+    private int empleadoId = -1;
+
+    private EditText edtNombre;
+    private EditText edtCorreo;
+    private EditText edtContrasena;
+    private EditText edtArea;
+    private EditText edtCargo;
+    private EditText edtFechaIngreso;
+    private TextView txtErrorCorreo;
+    private Button btnGuardar;
+
     private final OkHttpClient client = new OkHttpClient();
 
     private static final MediaType JSON =
             MediaType.parse("application/json; charset=utf-8");
 
     public AgregarEmpleadoFragment() {
+        // Constructor vacío
+    }
+
+    public void prepararEdicion(Empleado empleado) {
+        Bundle datos = new Bundle();
+
+        datos.putBoolean("modoEdicion", true);
+        datos.putInt("empleadoId", empleado.getId());
+        datos.putString("nombre", empleado.getNombre());
+        datos.putString("correo", empleado.getCorreo());
+        datos.putString("area", empleado.getArea());
+        datos.putString("cargo", empleado.getCargo());
+        datos.putString("fechaIngreso", empleado.getFechaIngreso());
+
+        setArguments(datos);
     }
 
     @Nullable
@@ -53,16 +82,73 @@ public class AgregarEmpleadoFragment extends Fragment {
                 false
         );
 
-        // =========================
-        // FECHA DE INGRESO
-        // =========================
+        Bundle datos = getArguments();
 
-        EditText edtFechaIngreso =
-                view.findViewById(
-                        R.id.edtFechaIngresoNuevoEmpleado
-                );
+        modoEdicion = datos != null
+                && datos.getBoolean("modoEdicion", false);
 
+        if (modoEdicion) {
+            empleadoId = datos.getInt("empleadoId", -1);
+        }
+
+        // Referencias de los campos
+        edtNombre = view.findViewById(
+                R.id.edtNombreNuevoEmpleado
+        );
+
+        edtCorreo = view.findViewById(
+                R.id.edtCorreoNuevoEmpleado
+        );
+
+        edtContrasena = view.findViewById(
+                R.id.edtContrasenaNuevoEmpleado
+        );
+
+        edtArea = view.findViewById(
+                R.id.edtAreaNuevoEmpleado
+        );
+
+        edtCargo = view.findViewById(
+                R.id.edtCargoNuevoEmpleado
+        );
+
+        edtFechaIngreso = view.findViewById(
+                R.id.edtFechaIngresoNuevoEmpleado
+        );
+
+        txtErrorCorreo = view.findViewById(
+                R.id.txtErrorCorreo
+        );
+
+        btnGuardar = view.findViewById(
+                R.id.btnGuardarNuevoEmpleado
+        );
+
+        // Configurar el formulario según el modo
+        if (modoEdicion && datos != null) {
+
+            edtNombre.setText(datos.getString("nombre", ""));
+            edtCorreo.setText(datos.getString("correo", ""));
+            edtArea.setText(datos.getString("area", ""));
+            edtCargo.setText(datos.getString("cargo", ""));
+            edtFechaIngreso.setText(
+                    datos.getString("fechaIngreso", "")
+            );
+
+            // La contraseña es opcional al editar
+            edtContrasena.setHint(
+                    "Nueva contraseña (opcional)"
+            );
+
+            btnGuardar.setText("Guardar cambios");
+
+        } else {
+            btnGuardar.setText("Guardar");
+        }
+
+        // Selector de fecha
         edtFechaIngreso.setFocusable(false);
+        edtFechaIngreso.setClickable(true);
 
         edtFechaIngreso.setOnClickListener(v -> {
 
@@ -99,7 +185,6 @@ public class AgregarEmpleadoFragment extends Fragment {
                             calendario.get(Calendar.DAY_OF_MONTH)
                     );
 
-            // No permite fechas futuras
             calendarioDialog.getDatePicker().setMaxDate(
                     System.currentTimeMillis()
             );
@@ -107,20 +192,7 @@ public class AgregarEmpleadoFragment extends Fragment {
             calendarioDialog.show();
         });
 
-        // =========================
-        // VALIDACIÓN DEL CORREO
-        // =========================
-
-        EditText edtCorreo =
-                view.findViewById(
-                        R.id.edtCorreoNuevoEmpleado
-                );
-
-        TextView txtErrorCorreo =
-                view.findViewById(
-                        R.id.txtErrorCorreo
-                );
-
+        // Validación del correo
         edtCorreo.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -138,126 +210,72 @@ public class AgregarEmpleadoFragment extends Fragment {
                     int before,
                     int count) {
 
-                String correo =
-                        s.toString().trim();
+                String correo = s.toString().trim();
 
-                if (correo.isEmpty()) {
-                    txtErrorCorreo.setVisibility(View.GONE);
-                    return;
-                }
+                if (correo.isEmpty()
+                        || !android.util.Patterns.EMAIL_ADDRESS
+                        .matcher(correo).matches()) {
 
-                if (!android.util.Patterns.EMAIL_ADDRESS
-                        .matcher(correo)
-                        .matches()) {
-
-                    txtErrorCorreo.setVisibility(View.VISIBLE);
+                    txtErrorCorreo.setVisibility(
+                            correo.isEmpty() ? View.GONE : View.VISIBLE
+                    );
 
                 } else {
-
                     txtErrorCorreo.setVisibility(View.GONE);
                 }
             }
 
             @Override
-            public void afterTextChanged(
-                    Editable s) {
+            public void afterTextChanged(Editable s) {
             }
         });
 
-        // =========================
-        // BOTÓN REGRESAR
-        // =========================
-
-        View btnRegresar =
-                view.findViewById(
-                        R.id.btnRegresarAgregarEmpleado
-                );
+        // Botón regresar
+        View btnRegresar = view.findViewById(
+                R.id.btnRegresarAgregarEmpleado
+        );
 
         btnRegresar.setOnClickListener(v ->
-                getParentFragmentManager()
-                        .popBackStack()
+                                               getParentFragmentManager().popBackStack()
         );
 
-        // =========================
-        // BOTÓN GUARDAR
-        // =========================
-
-        View btnGuardar =
-                view.findViewById(
-                        R.id.btnGuardarNuevoEmpleado
-                );
-
-        btnGuardar.setOnClickListener(v ->
-                guardarEmpleado()
-        );
+        // Botón guardar
+        btnGuardar.setOnClickListener(v -> guardarEmpleado());
 
         return view;
     }
 
     private void guardarEmpleado() {
 
-        EditText edtNombre =
-                requireView().findViewById(
-                        R.id.edtNombreNuevoEmpleado
-                );
-
-        EditText edtCorreo =
-                requireView().findViewById(
-                        R.id.edtCorreoNuevoEmpleado
-                );
-
-        EditText edtContrasena =
-                requireView().findViewById(
-                        R.id.edtContrasenaNuevoEmpleado
-                );
-
-        EditText edtArea =
-                requireView().findViewById(
-                        R.id.edtAreaNuevoEmpleado
-                );
-
-        EditText edtCargo =
-                requireView().findViewById(
-                        R.id.edtCargoNuevoEmpleado
-                );
-
-        EditText edtFechaIngreso =
-                requireView().findViewById(
-                        R.id.edtFechaIngresoNuevoEmpleado
-                );
-
-        String nombre =
-                edtNombre.getText().toString().trim();
-
-        String correo =
-                edtCorreo.getText().toString().trim();
-
-        String contrasena =
-                edtContrasena.getText().toString().trim();
-
-        String area =
-                edtArea.getText().toString().trim();
-
-        String cargo =
-                edtCargo.getText().toString().trim();
-
+        String nombre = edtNombre.getText().toString().trim();
+        String correo = edtCorreo.getText().toString().trim();
+        String contrasena = edtContrasena.getText().toString().trim();
+        String area = edtArea.getText().toString().trim();
+        String cargo = edtCargo.getText().toString().trim();
         String fechaIngreso =
                 edtFechaIngreso.getText().toString().trim();
 
-        // =========================
-        // VALIDAR CAMPOS
-        // =========================
-
+        // Validar campos obligatorios
         if (nombre.isEmpty()
                 || correo.isEmpty()
-                || contrasena.isEmpty()
                 || area.isEmpty()
                 || cargo.isEmpty()
-                || fechaIngreso.isEmpty()) {
+                || fechaIngreso.isEmpty()
+                || (!modoEdicion && contrasena.isEmpty())) {
 
             Toast.makeText(
                     requireContext(),
-                    "Completa todos los campos",
+                    "Completa todos los campos obligatorios",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            return;
+        }
+
+        if (modoEdicion && empleadoId <= 0) {
+            Toast.makeText(
+                    requireContext(),
+                    "No se identificó el empleado que deseas editar",
                     Toast.LENGTH_SHORT
             ).show();
 
@@ -266,8 +284,7 @@ public class AgregarEmpleadoFragment extends Fragment {
 
         // Validar correo
         if (!android.util.Patterns.EMAIL_ADDRESS
-                .matcher(correo)
-                .matches()) {
+                .matcher(correo).matches()) {
 
             Toast.makeText(
                     requireContext(),
@@ -278,130 +295,96 @@ public class AgregarEmpleadoFragment extends Fragment {
             return;
         }
 
-        // =========================
-        // CREAR JSON
-        // =========================
-
         try {
-
-            JSONObject datos =
-                    new JSONObject();
+            JSONObject datos = new JSONObject();
 
             datos.put("nombre", nombre);
             datos.put("correo", correo);
-            datos.put("contrasena", contrasena);
             datos.put("area", area);
             datos.put("cargo", cargo);
             datos.put("fecha_ingreso", fechaIngreso);
 
-            // =========================
-            // PREPARAR PETICIÓN
-            // =========================
+            // Enviar contraseña solamente si se escribió una
+            if (!contrasena.isEmpty()) {
+                datos.put("contrasena", contrasena);
+            }
 
-            RequestBody body =
-                    RequestBody.create(
-                            datos.toString(),
-                            JSON
-                    );
-
-            Request request =
-                    new Request.Builder()
-                            .url(
-                                    "http://2.25.188.174:3000/addEmpleados"
-                            )
-                            .post(body)
-                            .build();
-
-            // =========================
-            // ENVIAR AL SERVIDOR
-            // =========================
-
-            client.newCall(request).enqueue(
-                    new Callback() {
-
-                        @Override
-                        public void onFailure(
-                                Call call,
-                                IOException e) {
-
-                            if (getActivity() != null) {
-
-                                getActivity()
-                                        .runOnUiThread(() ->
-                                                Toast.makeText(
-                                                        requireContext(),
-                                                        "Error de conexión con el servidor",
-                                                        Toast.LENGTH_SHORT
-                                                ).show()
-                                        );
-                            }
-                        }
-
-                        @Override
-                        public void onResponse(
-                                Call call,
-                                Response response)
-                                throws IOException {
-
-                            String respuesta =
-                                    response.body() != null
-                                            ? response.body().string()
-                                            : "";
-
-                            if (getActivity() != null) {
-
-                                getActivity()
-                                        .runOnUiThread(() -> {
-
-                                            if (response.isSuccessful()) {
-
-                                                Toast.makeText(
-                                                        requireContext(),
-                                                        "Empleado guardado correctamente",
-                                                        Toast.LENGTH_SHORT
-                                                ).show();
-
-                                                // Cerrar formulario
-                                                getParentFragmentManager()
-                                                        .popBackStack();
-
-                                            } else {
-
-                                                try {
-
-                                                    JSONObject error =
-                                                            new JSONObject(
-                                                                    respuesta
-                                                            );
-
-                                                    String mensaje =
-                                                            error.optString(
-                                                                    "mensaje",
-                                                                    "No se pudo guardar el empleado"
-                                                            );
-
-                                                    Toast.makeText(
-                                                            requireContext(),
-                                                            mensaje,
-                                                            Toast.LENGTH_SHORT
-                                                    ).show();
-
-                                                } catch (Exception e) {
-
-                                                    Toast.makeText(
-                                                            requireContext(),
-                                                            "No se pudo guardar el empleado",
-                                                            Toast.LENGTH_SHORT
-                                                    ).show();
-                                                }
-                                            }
-                                        });
-                            }
-                        }
-                    }
+            RequestBody body = RequestBody.create(
+                    datos.toString(),
+                    JSON
             );
 
+            String url;
+            Request.Builder constructor = new Request.Builder();
+
+            if (modoEdicion) {
+                url = "http://2.25.188.174:3000/empleados/"
+                        + empleadoId;
+
+                constructor.url(url).put(body);
+
+            } else {
+                url = "http://2.25.188.174:3000/addEmpleados";
+
+                constructor.url(url).post(body);
+            }
+
+            Request request = constructor.build();
+
+            btnGuardar.setEnabled(false);
+
+            client.newCall(request).enqueue(new Callback() {
+
+                @Override
+                public void onFailure(
+                        Call call,
+                        IOException e) {
+
+                    mostrarResultado(
+                            "Error de conexión con el servidor",
+                            false
+                    );
+                }
+
+                @Override
+                public void onResponse(
+                        Call call,
+                        Response response) throws IOException {
+
+                    boolean exitoso = response.isSuccessful();
+                    String respuesta;
+
+                    try (Response resultado = response) {
+                        respuesta = resultado.body() != null
+                                ? resultado.body().string()
+                                : "";
+                    }
+
+                    String mensaje;
+
+                    try {
+                        JSONObject resultado =
+                                new JSONObject(respuesta);
+
+                        mensaje = resultado.optString(
+                                "mensaje",
+                                exitoso
+                                        ? "Operación realizada correctamente"
+                                        : "No se pudo guardar el empleado"
+                        );
+
+                    } catch (Exception e) {
+                        mensaje = exitoso
+                                ? "Operación realizada correctamente"
+                                : "No se pudo guardar el empleado";
+                    }
+
+                    mostrarResultado(mensaje, exitoso);
+                }
+            });
+
         } catch (Exception e) {
+            btnGuardar.setEnabled(true);
 
             Toast.makeText(
                     requireContext(),
@@ -409,5 +392,33 @@ public class AgregarEmpleadoFragment extends Fragment {
                     Toast.LENGTH_SHORT
             ).show();
         }
+    }
+
+    private void mostrarResultado(
+            String mensaje,
+            boolean exitoso) {
+
+        if (!isAdded()) {
+            return;
+        }
+
+        requireActivity().runOnUiThread(() -> {
+
+            if (!isAdded()) {
+                return;
+            }
+
+            btnGuardar.setEnabled(true);
+
+            Toast.makeText(
+                    requireContext(),
+                    mensaje,
+                    Toast.LENGTH_SHORT
+            ).show();
+
+            if (exitoso) {
+                getParentFragmentManager().popBackStack();
+            }
+        });
     }
 }

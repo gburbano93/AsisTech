@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="5dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <!-- NOMBRE DEL EMPLEADO -->
+        <TextView
+            android:id="@+id/txtNombreHoraExtra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nombre del empleado"
+            android:textColor="#20345C"
+            android:textStyle="bold"
+            android:textSize="15sp" />
+
+        <!-- ÁREA -->
+        <TextView
+            android:id="@+id/txtAreaHoraExtra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="Área"
+            android:textColor="#64748B"
+            android:textSize="12sp" />
+
+        <!-- CARGO -->
+        <TextView
+            android:id="@+id/txtCargoHoraExtra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cargo"
+            android:textColor="#64748B"
+            android:textSize="12sp" />
+
+        <!-- FECHA -->
+        <TextView
+            android:id="@+id/txtFechaHoraExtra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Fecha"
+            android:textColor="#64748B"
+            android:textSize="12sp" />
+
+        <!-- HORAS SOLICITADAS -->
+        <TextView
+            android:id="@+id/txtHorasHoraExtra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="2 horas"
+            android:textColor="#172554"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <!-- MOTIVO -->
+        <TextView
+            android:id="@+id/txtMotivoHoraExtra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="Motivo de la solicitud"
+            android:textColor="#64748B"
+            android:textSize="12sp" />
+
+        <!-- ESTADO -->
+        <TextView
+            android:id="@+id/txtEstadoHoraExtra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:background="#FFF1D6"
+            android:text="Pendiente"
+            android:textColor="#D97706"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <!-- BOTÓN APROBAR -->
+        <Button
+            android:id="@+id/btnAprobarHoraExtra"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="10dp"
+            android:text="Aprobar solicitud"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:backgroundTint="#0F766E" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

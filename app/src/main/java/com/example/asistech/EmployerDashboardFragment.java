@@ -286,7 +286,7 @@ public class EmployerDashboardFragment extends Fragment {
 
         Request request = new Request.Builder()
                 .url(
-                        "http://2.25.188.174:3000/empleados"
+                        "http://2.25.188.174:3000/empleados/activos"
                 )
                 .get()
                 .build();
